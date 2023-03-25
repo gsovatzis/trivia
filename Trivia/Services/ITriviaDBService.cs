@@ -7,6 +7,9 @@ namespace Trivia.Services
         Task SaveCategories(ICollection<Category> categories);
         Task SaveQuestions(ICollection<Question> questions);
         Task<Category> GetCategoryByName(string catName);
+        Task<ICollection<Category>> GetAllCategories();
+        Task<ICollection<string?>> GetDistinctDifficulties();
+        Task<ICollection<Question>> SearchQuestions(string? QuestionTerm, int? SelectedCategory, string? SelectedDifficulty);
         void CleanDB();
     }
 }

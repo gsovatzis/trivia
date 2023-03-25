@@ -10,29 +10,54 @@ namespace Trivia.Controllers
    public class HomeController : Controller
    {
       private readonly ILogger<HomeController> _logger;
-      private readonly ITriviaAPIService _triviaService;
+      private readonly ITriviaAPIService _triviaAPI;
       private readonly ITriviaDBService _triviaDB;
 
-      public HomeController(ILogger<HomeController> logger, ITriviaAPIService triviaService, ITriviaDBService triviaDB)
+      public HomeController(ILogger<HomeController> logger, ITriviaAPIService triviaAPI, ITriviaDBService triviaDB)
       {
          _logger = logger;
-         _triviaService = triviaService;
+         _triviaAPI = triviaAPI;
          _triviaDB = triviaDB;
       }
 
-      public IActionResult Index()
+      public async Task<IActionResult> Index()
       {
-         return View();
+            HomeViewModel model = new HomeViewModel();
+            // Load distinct categories from DB and bind them to the viewModel
+            model.Categories = await _triviaDB.GetAllCategories();
+
+            // Load distinct difficulties from DB and bind them to the viewModel
+            model.Difficulties = await _triviaDB.GetDistinctDifficulties();
+
+         return View(model);
       }
 
+        public async Task<IActionResult> Search(string? QuestionTerm, int? SelectedCategory, string? SelectedDifficulty)
+        {
+            HomeViewModel model = new HomeViewModel();
+            // Load distinct categories from DB and bind them to the viewModel
+            model.Categories = await _triviaDB.GetAllCategories();
+            
+            // Load distinct difficulties from DB and bind them to the viewModel
+            model.Difficulties = await _triviaDB.GetDistinctDifficulties();
+
+            model.QuestionTerm = QuestionTerm;
+            model.SelectedCategory = SelectedCategory;
+            model.SelectedDifficulty = SelectedDifficulty;
+
+            // Search the database and retrieve the results, based on filters
+            model.Results = await _triviaDB.SearchQuestions(QuestionTerm, SelectedCategory, SelectedDifficulty);   
+
+            return View("Index",model);
+        }
       public async Task<IActionResult> Populate()
       {
          // Clean the database
          _triviaDB.CleanDB();
 
-         // Populate a list of categories from the Trivia service
-         var categories = _triviaService.PopulateCategories().Result;
-         var questions = _triviaService.PopulateQuestions().Result;
+         // Populate a list of categories from the Trivia API
+         var categories = _triviaAPI.PopulateCategories().Result;
+         var questions = _triviaAPI.PopulateQuestions().Result;
 
          // If we have a list of categories retrieved, save them into the DB
          await _triviaDB.SaveCategories(categories);

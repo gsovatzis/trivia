@@ -1,4 +1,6 @@
-﻿@{
+﻿@model HomeViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -10,3 +12,23 @@
 <div class="text-end">
    <button type="button" onclick="location.href='@Url.Action("Populate","Home")'" class="btn btn-primary">Populate questions...</button>
 </div>
+
+<form asp-action="Search" asp-controller="Home">
+   <div class="row">
+      <div class="col">
+            <label for="SelectedCategory" class="form-label">Categories</label>
+            @Html.DropDownList("SelectedCategory",Model.GetCategoriesSelectList(),"Please select category", new {@class="form-select", @id="SelectedCategory"})
+      </div>
+      <div class="col">
+            <label for="SelectedDifficulty" class="form-label">Difficulties</label>
+            @Html.DropDownList("SelectedDifficulty",Model.GetDifficultiesSelectList(),"Please select difficulty", new {@class="form-select", @id="SelectedDifficulty"})
+      </div>
+      <div class="col">
+         <label for="QuestionTerm" class="form-label">Question Term</label>
+         <input type="text" id="QuestionTerm" name="QuestionTerm" value="@Model.QuestionTerm" class="form-control" />
+      </div>
+       <div class="col align-self-end">
+           <input type="submit" class="btn btn-success btn-lg col-12" value="Search" />
+       </div>
+   </div>
+</form>
