@@ -10,11 +10,7 @@ namespace Trivia.Models
       [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
       public int Id { get; set; }
       public string? Name { get; set; }
-      public ICollection<Tag>? Tags { get; set; }
-
-      public Category()
-      {
-         Tags = new List<Tag>();
-      }
+      public string? Tags { get; set; }
+      
    }
 }

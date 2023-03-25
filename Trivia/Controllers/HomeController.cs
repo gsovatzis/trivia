@@ -10,14 +10,14 @@ namespace Trivia.Controllers
    public class HomeController : Controller
    {
       private readonly ILogger<HomeController> _logger;
-      private readonly ITriviaService _triviaService;
-      private readonly TriviaContext _context;
+      private readonly ITriviaAPIService _triviaService;
+      private readonly ITriviaDBService _triviaDB;
 
-      public HomeController(ILogger<HomeController> logger, ITriviaService triviaService, TriviaContext context)
+      public HomeController(ILogger<HomeController> logger, ITriviaAPIService triviaService, ITriviaDBService triviaDB)
       {
          _logger = logger;
          _triviaService = triviaService;
-         _context = context;
+         _triviaDB = triviaDB;
       }
 
       public IActionResult Index()
@@ -28,14 +28,17 @@ namespace Trivia.Controllers
       public async Task<IActionResult> Populate()
       {
          // Clean the database
-         _context.CleanDB();
+         _triviaDB.CleanDB();
 
          // Populate a list of categories from the Trivia service
          var categories = _triviaService.PopulateCategories().Result;
          var questions = _triviaService.PopulateQuestions().Result;
 
-         // If we have a list of categories retrieved, save them
-         //await SaveCategories(categories);
+         // If we have a list of categories retrieved, save them into the DB
+         await _triviaDB.SaveCategories(categories);
+
+         // If we have a list of questions retrieved, save them into the DB
+         await _triviaDB.SaveQuestions(questions);
                   
          return RedirectToAction("Index");
       }
@@ -50,27 +53,6 @@ namespace Trivia.Controllers
       {
          return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
       }
-
-      /// <summary>
-      /// This method saves the categories (and related tags) in the database
-      /// </summary>
-      /// <param name="categories">A collection of categories</param>
-      /// <returns></returns>
-      private async Task SaveCategories(ICollection<Category> categories)
-      {
-         if (categories.Count() > 0)
-         {
-            foreach (var cat in categories)
-            {
-               foreach (var tag in cat.Tags!)
-               {
-                  _context.Add(tag);   // Persist the related tag first to avoid FK conflicts
-               }
-               _context.Add(cat);   // Persist the category
-            }
-
-            await _context.SaveChangesAsync();  // Do the inserts
-         }
-      }
+      
    }
 }

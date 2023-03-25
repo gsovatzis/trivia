@@ -2,7 +2,7 @@
 
 namespace Trivia.Services
 {
-   public interface ITriviaService
+   public interface ITriviaAPIService
    {
       Task<ICollection<Question>> PopulateQuestions();
       Task<ICollection<Category>> PopulateCategories();
