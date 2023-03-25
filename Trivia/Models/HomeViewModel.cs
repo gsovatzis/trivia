@@ -12,6 +12,8 @@ namespace Trivia.Models
         public string? SelectedDifficulty { get; set; }
         public int? SelectedCategory { get; set; }
 
+        public string Message { get; set; }
+
         public HomeViewModel() { 
             Categories = new List<Category>();
             Difficulties = new List<string?>();

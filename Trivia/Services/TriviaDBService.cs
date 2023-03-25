@@ -63,6 +63,13 @@ namespace Trivia.Services
             return await _context.Questions.Select(x => x.Difficulty).Distinct().ToListAsync();
         }
 
+        public async Task<Question> GetQuestionById(string questionId)
+        {
+            if (questionId == null) return null;
+
+            return await _context.Questions.FirstOrDefaultAsync(x => x.Id.Equals(questionId));
+        }
+
         /// <summary>
         /// This method saves the categories (and related tags) in the database
         /// </summary>

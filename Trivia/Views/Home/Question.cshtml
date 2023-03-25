@@ -1,0 +1,51 @@
+﻿@model QuestionViewModel
+
+@{
+    ViewData["Title"] = "Question Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to the Trivia app!</h1>
+    <p>This is a simple game, utilizing <a href="https://the-trivia-api.com/">THE TRIVIA API</a> </p>
+</div>
+
+<form asp-action="AnswerQuestion" asp-controller="Home" asp-route-id="@Model.question.Id">
+    <div class="row text-center">
+        <h2>Question: @Model.question.Name</h2>
+    </div>
+
+    <div class="text-center">
+        <br />
+        <h3>Choose your answer...</h3>
+        <br />
+    </div>
+
+    <div class="row">
+        <div class="col col-4"></div>
+        <div class="col col-4 align-content-center">
+            @foreach (var answer in Model.GetPossibleAnswers())
+            {
+                <div class="form-check">
+                    @Html.RadioButton("SelectedAnswer",answer,new {@class="form-check-input", @id="SelectedAnswer", @type="radio"})
+                    <label class="form-check-label" for="SelectedAnswer">
+                        @answer
+                    </label>
+                </div>
+            }
+        </div>
+        <div class="col col-4"></div>
+    </div>
+
+    <div class="text-center">
+        <br /><br />
+        <input type="submit" class="btn btn-success btn-lg col-8" value="Submit your answer :)" />
+    </div>
+
+</form>
+
+<div class="text-center">
+    <br />
+    <h3 class="display-12">@Model.Message</h3>
+    <br />
+</div>
+

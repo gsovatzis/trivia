@@ -9,10 +9,6 @@
     <p>This is a simple game, utilizing <a href="https://the-trivia-api.com/">THE TRIVIA API</a> </p>
 </div>
 
-<div class="text-end">
-   <button type="button" onclick="location.href='@Url.Action("Populate","Home")'" class="btn btn-primary">Populate questions...</button>
-</div>
-
 <form asp-action="Search" asp-controller="Home">
    <div class="row">
       <div class="col">
@@ -32,3 +28,60 @@
        </div>
    </div>
 </form>
+
+<div class="text-center">
+   <br/>
+      <h6 class="display-12">@Model.Message</h6>
+   <br/>
+</div>
+
+<div class="text-left">
+    @if(Model.Results.Count==0)
+    {
+        <h3 class="display-12 text-center">No questions found. Modify your search criteria and click Search again :)</h3>
+    } else
+    {
+        <table class="table">
+           <thead>
+              <tr>
+                 <th>
+                    Question
+                 </th>
+                 <th>
+                    Category
+                 </th>
+                 <th>
+                    Difficulty
+                 </th>
+                 <th>
+                    Tags
+                 </th>
+                 <th><!-- Empty header for action button--></th>
+              </tr>
+           </thead>
+           <tbody>
+                @foreach(var q in Model.Results)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => q.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => q.Category!.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => q.Difficulty)</td>
+                        <td>
+                            @foreach(var tag in q.Tags!.Split(":"))
+                            {
+                                <span class="badge bg-warning text-dark">@Html.DisplayFor(modelItem => tag)</span>
+                            }
+                        </td>
+                        <td>
+                            <button onclick="location.href='@Url.Action("ShowQuestion","Home", new RouteValueDictionary {{ "Id",q.Id }})'" type="button" class="btn btn-info">Show question</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<div class="text-end">
+    <button type="button" onclick="location.href='@Url.Action("Populate","Home")'" class="btn btn-primary">Populate questions...</button>
+</div>

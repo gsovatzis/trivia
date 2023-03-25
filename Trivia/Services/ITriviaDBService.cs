@@ -10,6 +10,8 @@ namespace Trivia.Services
         Task<ICollection<Category>> GetAllCategories();
         Task<ICollection<string?>> GetDistinctDifficulties();
         Task<ICollection<Question>> SearchQuestions(string? QuestionTerm, int? SelectedCategory, string? SelectedDifficulty);
+        
+        Task<Question> GetQuestionById(string questionId);
         void CleanDB();
     }
 }
