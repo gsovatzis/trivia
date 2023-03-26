@@ -7,6 +7,7 @@ namespace Trivia.Data
    {
       public TriviaContext(DbContextOptions<TriviaContext> options) : base(options) 
       { 
+            Database.EnsureCreated();
       }
 
       public DbSet<Category> Categories { get; set; }

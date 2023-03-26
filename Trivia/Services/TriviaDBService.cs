@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using Trivia.Data;
 using Trivia.Models;
 
@@ -20,8 +21,9 @@ namespace Trivia.Services
         {
             _context.Database.ExecuteSqlRaw("DELETE FROM Questions");
             _context.Database.ExecuteSqlRaw("DELETE FROM Categories");
-            _context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Categories',RESEED,0)");
-
+            
+            // TODO: Possible defect to be investigated on initial DB Seed
+            //  _context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Categories',RESEED,0)"); --> Commented-out since it created an issue on initial DB creation
         }
 
         /// <summary>
@@ -98,6 +100,7 @@ namespace Trivia.Services
                 foreach (var q in questions)
                 {
                     // We need to check if the category already exists, if yes update the question with the related category, if not create the category first
+                    Debug.WriteLine($"Searching category: {q.Category.Name}");
                     q.Category = await GetCategoryByName(q.Category.Name);
                     _context.Add(q);
                 }
