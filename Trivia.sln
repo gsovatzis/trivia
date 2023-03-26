@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trivia", "Trivia\Trivia.csproj", "{94916BFA-9FBA-40E4-8950-E4FE3C17A85A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trivia", "Trivia\Trivia.csproj", "{94916BFA-9FBA-40E4-8950-E4FE3C17A85A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trivia.Tests", "Trivia.Tests\Trivia.Tests.csproj", "{59C249B5-D6E8-4B0D-B7BF-00130A96FFB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{94916BFA-9FBA-40E4-8950-E4FE3C17A85A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94916BFA-9FBA-40E4-8950-E4FE3C17A85A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94916BFA-9FBA-40E4-8950-E4FE3C17A85A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59C249B5-D6E8-4B0D-B7BF-00130A96FFB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59C249B5-D6E8-4B0D-B7BF-00130A96FFB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59C249B5-D6E8-4B0D-B7BF-00130A96FFB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59C249B5-D6E8-4B0D-B7BF-00130A96FFB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

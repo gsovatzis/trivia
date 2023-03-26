@@ -11,6 +11,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<TriviaContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddTransient<ITriviaAPIService, TriviaAPIService>();
 builder.Services.AddTransient<ITriviaDBService, TriviaDBService>();
+builder.Services.AddTransient<ITriviaBusinessService, TriviaBusinessService>();
 builder.Services.AddHttpClient("Trivia", httpClient =>
 {
    httpClient.BaseAddress = new Uri(builder.Configuration.GetValue<string>("TriviaBaseURL"));
